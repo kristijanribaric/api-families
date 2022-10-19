@@ -1,7 +1,7 @@
 ﻿
 using System.Text.Json.Serialization;
 
-namespace TestApi.Models
+namespace FamiliesApi.Models
 {
     public  class FamilyMember
     {

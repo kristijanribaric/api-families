@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using TestApi.Models;
-using TestApi.DTOs;
-namespace TestApi {
+using FamiliesApi.Models;
+using FamiliesApi.DTOs;
+namespace FamiliesApi {
     public class AutoMapperProfile: Profile {
         public AutoMapperProfile() {
             CreateMap<Family, FamilyDto>()

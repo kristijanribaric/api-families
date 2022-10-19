@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TestApi.Models;
+using FamiliesApi.Models;
 
-namespace TestApi.Data {
+namespace FamiliesApi.Data {
     public class DataContext : DbContext {
         public DataContext( DbContextOptions<DataContext> options): base (options) {}
 

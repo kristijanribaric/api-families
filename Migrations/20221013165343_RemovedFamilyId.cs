@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace TestApi.Migrations
+namespace FamiliesApi.Migrations
 {
     public partial class RemovedFamilyId : Migration
     {

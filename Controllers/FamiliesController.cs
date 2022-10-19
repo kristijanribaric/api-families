@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
-using TestApi.Data;
-using TestApi.DTOs;
-using TestApi.Models;
+using FamiliesApi.Data;
+using FamiliesApi.DTOs;
+using FamiliesApi.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace TestApi.Controllers
+namespace FamiliesApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

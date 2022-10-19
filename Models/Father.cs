@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using TestApi.Models;
+using FamiliesApi.Models;
 
-namespace TestApi.Models
+namespace FamiliesApi.Models
 {
     public class Father : FamilyMember
     {

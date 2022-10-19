@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TestApi.Data;
+using FamiliesApi.Data;
 
 #nullable disable
 
-namespace TestApi.Migrations
+namespace FamiliesApi.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20221018124901_FMUpdate")]
@@ -24,7 +24,7 @@ namespace TestApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("TestApi.Models.Family", b =>
+            modelBuilder.Entity("FamiliesApi.Models.Family", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +41,7 @@ namespace TestApi.Migrations
                     b.ToTable("Families");
                 });
 
-            modelBuilder.Entity("TestApi.Models.FamilyMember", b =>
+            modelBuilder.Entity("FamiliesApi.Models.FamilyMember", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,30 +76,30 @@ namespace TestApi.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("FamilyMember");
                 });
 
-            modelBuilder.Entity("TestApi.Models.Child", b =>
+            modelBuilder.Entity("FamiliesApi.Models.Child", b =>
                 {
-                    b.HasBaseType("TestApi.Models.FamilyMember");
+                    b.HasBaseType("FamiliesApi.Models.FamilyMember");
 
                     b.HasDiscriminator().HasValue("Child");
                 });
 
-            modelBuilder.Entity("TestApi.Models.Father", b =>
+            modelBuilder.Entity("FamiliesApi.Models.Father", b =>
                 {
-                    b.HasBaseType("TestApi.Models.FamilyMember");
+                    b.HasBaseType("FamiliesApi.Models.FamilyMember");
 
                     b.HasDiscriminator().HasValue("Father");
                 });
 
-            modelBuilder.Entity("TestApi.Models.Mother", b =>
+            modelBuilder.Entity("FamiliesApi.Models.Mother", b =>
                 {
-                    b.HasBaseType("TestApi.Models.FamilyMember");
+                    b.HasBaseType("FamiliesApi.Models.FamilyMember");
 
                     b.HasDiscriminator().HasValue("Mother");
                 });
 
-            modelBuilder.Entity("TestApi.Models.FamilyMember", b =>
+            modelBuilder.Entity("FamiliesApi.Models.FamilyMember", b =>
                 {
-                    b.HasOne("TestApi.Models.Family", "Family")
+                    b.HasOne("FamiliesApi.Models.Family", "Family")
                         .WithMany("Members")
                         .HasForeignKey("FamilyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -108,7 +108,7 @@ namespace TestApi.Migrations
                     b.Navigation("Family");
                 });
 
-            modelBuilder.Entity("TestApi.Models.Family", b =>
+            modelBuilder.Entity("FamiliesApi.Models.Family", b =>
                 {
                     b.Navigation("Members");
                 });

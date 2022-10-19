@@ -1,4 +1,4 @@
-﻿namespace TestApi.DTOs {
+﻿namespace FamiliesApi.DTOs {
     public class FamilyMemberDto {
         public int? Id { get; set; }
         public string FirstName { get; set; } = string.Empty;

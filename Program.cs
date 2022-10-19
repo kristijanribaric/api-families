@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
-using TestApi;
-using TestApi.Data;
+using FamiliesApi;
+using FamiliesApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 ﻿
 
 
-namespace TestApi.Models
+namespace FamiliesApi.Models
 {
     public class Family
     {

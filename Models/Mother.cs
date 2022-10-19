@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TestApi.Models
+namespace FamiliesApi.Models
 {
     public class Mother : FamilyMember
     {
