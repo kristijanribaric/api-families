@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using FamiliesApi.DTOs;
+using System.Text.RegularExpressions;
 
 namespace FamiliesApi.Models
 {
@@ -6,7 +7,7 @@ namespace FamiliesApi.Models
     {
 
         public override bool CheckIfMember( string memberString ) {
-            return Regex.IsMatch(memberString, "^Mrs\\.\\s+[A-Z]([a-z]|[^\\x00-\\x7F])+\\s+[A-Z]([a-z]|[^\\x00-\\x7F])+$");
+            return Regex.IsMatch(memberString, "^Mrs\\.\\s+([A-Z]|[a-z]|[^\\x00-\\x7F])+\\s+([A-Z]|[a-z]|[^\\x00-\\x7F])+$");
         }
 
 
@@ -17,6 +18,10 @@ namespace FamiliesApi.Models
             var FirstName = memberList [0];
             var LastName = memberList [1];
             return new Mother { FirstName = FirstName, LastName = LastName };
+        }
+
+        public override Mother CreateMember( FamilyMemberDto member ) {
+            return new Mother { FirstName = member.FirstName, LastName = member.LastName, Age = member.Age };
         }
     }
 }

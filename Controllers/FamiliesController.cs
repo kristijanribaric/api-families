@@ -64,16 +64,14 @@ namespace FamiliesApi.Controllers
                     {
                         var familyMember = memberType.CreateMember(memberString);
                        
-                        var family = await _context.Families.Where(f => f.LastName == familyMember.LastName).FirstOrDefaultAsync();
+                        var family = await _context.Families.Where(f => f.LastName.ToLower() == familyMember.LastName.ToLower()).FirstOrDefaultAsync();
                         if ( family == null ) {
                             _context.Families.Add(new Family { LastName = familyMember.LastName, Members = new List<FamilyMember> { familyMember } });
-                            FamilyMembers.Add(familyMember);
                         } else {
                             family.Members.Add(familyMember);
-                            
-                            FamilyMembers.Add(familyMember);
                         }
-                     }
+                        FamilyMembers.Add(familyMember);
+                    }
                 }
             }
             await _context.SaveChangesAsync();

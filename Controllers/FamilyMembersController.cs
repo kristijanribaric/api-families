@@ -44,11 +44,32 @@ namespace FamiliesApi.Controllers {
             if ( familyMember == null ) {
                 return BadRequest("Family Member not found");
             }
+            if ( receivedMember.Type != familyMember.GetType().Name ) {
+                //delete the old one and create a new one
+                
+                //await _context.SaveChangesAsync();
+                FamilyMember? newMember = null;
+                foreach ( FamilyMember memberType in FamilyMember.FamilyMemberTypes ) {
+                    if ( receivedMember.Type == memberType.GetType().Name ) {
+
+                        newMember = memberType.CreateMember(receivedMember);
+                        _context.FamilyMembers.Update(familyMember);
+                    }
+                }
+                if ( newMember == null ) {
+                    return BadRequest("Family member type not found.");
+                }
+                newMember.Family = familyMember.Family;
+                newMember.Id = familyMember.Id;
+                _context.FamilyMembers.Remove(familyMember);
+                _context.FamilyMembers.Add(newMember);
+                await _context.SaveChangesAsync();
+                return Ok(_mapper.Map<FamilyMemberDto>(newMember));
+            }
+           
             familyMember.Age = receivedMember.Age;
             familyMember.FirstName = receivedMember.FirstName;
             familyMember.LastName = receivedMember.LastName;
-            
-            Console.WriteLine(familyMember);
             await _context.SaveChangesAsync();
             return Ok(_mapper.Map<FamilyMemberDto>(familyMember));
         }

@@ -1,4 +1,5 @@
 ﻿
+using FamiliesApi.DTOs;
 using System.Text.Json.Serialization;
 
 namespace FamiliesApi.Models
@@ -16,6 +17,10 @@ namespace FamiliesApi.Models
         }
 
         public virtual FamilyMember CreateMember( string memberString ) {
+            throw new NotImplementedException();
+        }
+
+        public virtual FamilyMember CreateMember(  FamilyMemberDto member) {
             throw new NotImplementedException();
         }
 
