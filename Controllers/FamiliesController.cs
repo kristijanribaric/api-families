@@ -54,7 +54,7 @@ namespace FamiliesApi.Controllers
         [HttpPost("FamilyMembers")]
         public async Task<ActionResult<List<FamilyDto>>> CreateFamilyMembers( [FromBody] string membersString ) {
             var membersArr = membersString.Split(',').Select(p => p.Trim()).ToList();
-            var FamilyMembers = new List<FamilyMember>();
+            var familyMembers = new List<FamilyMember>();
             foreach ( var memberString in membersArr ) {
            
             
@@ -70,16 +70,16 @@ namespace FamiliesApi.Controllers
                         } else {
                             family.Members.Add(familyMember);
                         }
-                        FamilyMembers.Add(familyMember);
+                        familyMembers.Add(familyMember);
                     }
                 }
             }
             await _context.SaveChangesAsync();
-            if ( FamilyMembers.Count == 0 ) {
+            if ( familyMembers.Count == 0 ) {
                 return BadRequest("No family members found");
             }
 
-            return Ok(await _context.Families.Where(fm => FamilyMembers.Select(f => f.LastName).Contains(fm.LastName)).Select(f => _mapper.Map<FamilyDto>(f)).ToListAsync());
+            return Ok(await _context.Families.Where(fm => familyMembers.Select(f => f.LastName).Contains(fm.LastName)).Select(f => _mapper.Map<FamilyDto>(f)).ToListAsync());
 
         }
     }

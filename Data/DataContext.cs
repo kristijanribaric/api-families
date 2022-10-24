@@ -17,7 +17,7 @@ namespace FamiliesApi.Data {
             modelBuilder.Entity<Family>().Navigation(f => f.Members).AutoInclude();
         }
 
-        // override SaveChangesAsync so last name and first name are always capitalized
+        // override SaveChangesAsync so last name and first name are always capitalizedd
         public override async Task<int> SaveChangesAsync( CancellationToken cancellationToken = new CancellationToken() ) {
             var changedFamilyMembers = ChangeTracker.Entries().Where(e => e.Entity is FamilyMember && (e.State == EntityState.Added || e.State == EntityState.Modified));
             // set first name and last name first letter of Family Member to uppercase

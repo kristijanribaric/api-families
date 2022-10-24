@@ -10,9 +10,9 @@ using FamiliesApi.Models;
 namespace FamiliesApi.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class FamilyMembersController : ControllerBase {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
+    public class FamilyMembersController<T, D> : ControllerBase where T : FamilyMember where D : FamilyMemberDto {
+        protected readonly DataContext _context;
+        protected readonly IMapper _mapper;
 
         public FamilyMembersController(DataContext context, IMapper mapper) {
             _context = context;
@@ -20,15 +20,15 @@ namespace FamiliesApi.Controllers {
         }
         // GET: api/<FamilyMembersController>
         [HttpGet]
-        public async Task<ActionResult<List<FamilyMemberDto>>> GetFamilyMembers() {
-            return Ok(await _context.FamilyMembers.Select(m => _mapper.Map<FamilyMemberDto>(m)).ToListAsync());
+        public async Task<ActionResult<List<D>>> GetFamilyMembers() {
+            return Ok(await _context.FamilyMembers.Where(f => f is T).Select(f => _mapper.Map<D>(f)).ToListAsync());
         }
-
+        
         // GET api/<FamilyMembersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FamilyMemberDto>> GetFamilyMember( int id ) {
-            var familyMember = await _context.FamilyMembers.Where(m => m.Id == id)
-                                                           .Select(m => _mapper.Map<FamilyMemberDto>(m))
+        public async Task<ActionResult<D>> GetFamilyMember( int id ) {
+            var familyMember = await _context.FamilyMembers.Where(m => m.Id == id && m is T)
+                                                           .Select(m => _mapper.Map<D>(m))
                                                            .FirstOrDefaultAsync();
             if ( familyMember == null ) {
                 BadRequest("Family Member not found");
@@ -39,7 +39,7 @@ namespace FamiliesApi.Controllers {
 
         // PUT api/<FamilyMembersController>/5
         [HttpPut]
-        public async Task<ActionResult<FamilyMemberDto>> PutAge(  [FromBody] FamilyMemberDto receivedMember ) {
+        public virtual async Task<ActionResult<D>> UpdateMember(  [FromBody] D receivedMember ) {
             var familyMember = await _context.FamilyMembers.Where(m => m.Id == receivedMember.Id).FirstOrDefaultAsync();
             if ( familyMember == null ) {
                 return BadRequest("Family Member not found");
@@ -64,26 +64,26 @@ namespace FamiliesApi.Controllers {
                 _context.FamilyMembers.Remove(familyMember);
                 _context.FamilyMembers.Add(newMember);
                 await _context.SaveChangesAsync();
-                return Ok(_mapper.Map<FamilyMemberDto>(newMember));
+                return Ok(_mapper.Map<D>(newMember));
             }
            
             familyMember.Age = receivedMember.Age;
             familyMember.FirstName = receivedMember.FirstName;
             familyMember.LastName = receivedMember.LastName;
             await _context.SaveChangesAsync();
-            return Ok(_mapper.Map<FamilyMemberDto>(familyMember));
+            return Ok(_mapper.Map<D>(familyMember));
         }
 
         // DELETE api/<FamilyMembersController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<FamilyMemberDto>> DeleteFamilyMember( int id ) {
+        public async Task<ActionResult<D>> DeleteFamilyMember( int id ) {
             var familyMember = await _context.FamilyMembers.Where(m => m.Id == id).FirstOrDefaultAsync();
             if ( familyMember == null ) {
                 return BadRequest("Family Member not found");
             }
             _context.FamilyMembers.Remove(familyMember);
             await _context.SaveChangesAsync();
-            return Ok(_mapper.Map<FamilyMemberDto>(familyMember));
+            return Ok(_mapper.Map<D>(familyMember));
         }
     }
 }

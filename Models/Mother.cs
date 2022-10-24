@@ -5,7 +5,7 @@ namespace FamiliesApi.Models
 {
     public class Mother : FamilyMember
     {
-
+        public string FavoriteDish { get; set; } = string.Empty;
         public override bool CheckIfMember( string memberString ) {
             return Regex.IsMatch(memberString, "^Mrs\\.\\s+([A-Z]|[a-z]|[^\\x00-\\x7F])+\\s+([A-Z]|[a-z]|[^\\x00-\\x7F])+$");
         }

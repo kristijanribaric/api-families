@@ -10,6 +10,7 @@ namespace FamiliesApi.Models
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public int? Age { get; set; }
+        public int FamilyId { get; set; }
         public Family Family { get; set; }
 
         public virtual bool CheckIfMember( string memberString ) {
