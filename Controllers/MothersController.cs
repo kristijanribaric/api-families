@@ -15,11 +15,11 @@ namespace FamiliesApi.Controllers {
         [HttpPut]
         public override async Task<ActionResult<MotherDto>> UpdateMember( [FromBody] MotherDto receivedMother ) {
             var familyMember = await _context.FamilyMembers.Where(m => m.Id == receivedMother.Id).FirstOrDefaultAsync();
-            if ( familyMember == null || familyMember is not Mother ) {
-                return BadRequest("Family Member not found or is not a mother");
+            if ( familyMember == null) {
+                return BadRequest("Family Member not found.");
             }
-            var mother = familyMember as Mother;
-            if ( receivedMother.Type != mother.GetType().Name ) {
+            
+            if ( receivedMother.Type != familyMember.GetType().Name ) {
 
                 FamilyMember? newMember = null;
                 foreach ( FamilyMember memberType in FamilyMember.FamilyMemberTypes ) {
@@ -31,14 +31,14 @@ namespace FamiliesApi.Controllers {
                 if ( newMember == null ) {
                     return BadRequest("Family member type not found.");
                 }
-                newMember.FamilyId = mother.FamilyId;
-                newMember.Id = mother.Id;
-                _context.FamilyMembers.Remove(mother);
+                newMember.FamilyId = familyMember.FamilyId;
+                newMember.Id = familyMember.Id;
+                _context.FamilyMembers.Remove(familyMember);
                 _context.FamilyMembers.Add(newMember);
                 await _context.SaveChangesAsync();
                 return Ok(_mapper.Map<FamilyMemberDto>(newMember));
             }
-
+            var mother = familyMember as Mother;
             mother.Age = receivedMother.Age;
             mother.FirstName = receivedMother.FirstName;
             mother.LastName = receivedMother.LastName;
