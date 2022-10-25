@@ -38,6 +38,23 @@ namespace FamiliesApi.Data {
                 }
             }
 
+            // for all changed fathers uppercase first name
+            var changedFathers = ChangeTracker.Entries().Where(e => e.Entity is Father && (e.State == EntityState.Added || e.State == EntityState.Modified));
+            if ( changedFathers != null ) {
+                foreach ( var changedFather in changedFathers ) {
+                    var entity = ( Father )changedFather.Entity;
+                    entity.FirstName = entity.FirstName.ToUpper();
+                }
+            }
+
+            // for all changed children uppercase toy name
+            var changedChildren = ChangeTracker.Entries().Where(e => e.Entity is Child && (e.State == EntityState.Added || e.State == EntityState.Modified));
+            if ( changedChildren != null ) {
+                foreach ( var changedChild in changedChildren ) {
+                    var entity = ( Child )changedChild.Entity;
+                    entity.FavoriteToy = entity.FavoriteToy.ToUpper();
+                }
+            }
 
             return await base.SaveChangesAsync(cancellationToken);
         }
